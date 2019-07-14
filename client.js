@@ -5,7 +5,13 @@ const routeguide = require('./routeguide');
 const stub = new routeguide.RouteGuide(
     'localhost:3000', grpc.credentials.createInsecure());
 
-stub.numberToNumber(3, function(err, number) {
+console.log(stub);
+
+const ourNumber = {
+  number: 3
+};
+
+stub.numberToNumber(ourNumber, function(err, number) {
   if (err) console.log(err);
-  console.log(number)
-})
+  console.log(number);
+});
