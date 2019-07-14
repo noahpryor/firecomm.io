@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package routeguide;
+
+service RouteGuide {
+  rpc NumberToNumber(Number) returns (Number) {}
+}
+
+// service RouteGuide2 {
+//   rpc NumberToNumber2(Number) returns (Number) {}
+// }
+
+message Number { int32 number = 1; }
