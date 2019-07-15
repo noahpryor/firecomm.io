@@ -7,37 +7,37 @@ const stub = new routeguide.RouteGuide(
 );
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
-const interceptorProvider = function(options, nextCall) {
+const interceptor = function(options, nextCall) {
   console.log("options:", options);
   var requester = {
     start: function(metadata, listener, next) {
-      // console.log("metadata start", metadata);
+      console.log("metadata start", metadata);
       var newListener = {
         onReceiveMetadata: function(metadata, next) {
-          // console.log("metadata on Receive meta", metadata);
+          console.log("metadata on Receive meta", metadata);
           next(metadata);
         },
         onReceiveMessage: function(message, next) {
-          // console.log("metadata on Receive message", metadata);
+          console.log("metadata on Receive message", metadata);
           next(message);
         },
         onReceiveStatus: function(status, next) {
-          // console.log("metadata on receive status", metadata);
+          console.log("metadata on receive status", metadata);
           next(status);
         }
       };
       next(metadata, newListener);
     },
     sendMessage: function(message, next) {
-      // console.log("sendmessage", message);
+      console.log("sendmessage", message);
       next(message);
     },
     halfClose: function(next) {
-      // console.log("halfclose");
+      console.log("halfclose");
       next();
     },
     cancel: function(message, next) {
-      // console.log("cancel", message);
+      console.log("cancel", message);
       next();
     }
   };
@@ -56,36 +56,31 @@ const ourNumber = {
   number: 3
 };
 
-// stub.numberToNumber(
-//   ourNumber,
-//   { interceptors: [interceptorProvider] },
-//   function(err, number) {
-//     if (err) console.log(err);
-//     console.log(number);
-//   }
-// );
+stub.numberToNumber(ourNumber, { interceptors: [interceptor] }, function(
+  err,
+  number
+) {
+  if (err) console.log(err);
+  console.log(number);
+});
 
 // SERVER STREAMING
-const numberStream = stub.streamNumbers(ourNumber, {
-  interceptors: [interceptorProvider]
-});
+// const numberStream = stub.streamNumbers(ourNumber, {
+//   interceptors: [interceptor]
+// });
 
-console.log("numberStream", numberStream);
+// numberStream.on("data", data => {
+//   console.log("data: ", data);
+// });
 
-// console.log("stub", stub.__proto__);
+// numberStream.on("end", () => {
+//   console.log("end:");
+// });
 
-numberStream.on("data", data => {
-  console.log("data: ", data);
-});
+// numberStream.on("error", e => {
+//   console.log("error: ", e);
+// });
 
-numberStream.on("end", () => {
-  console.log("end:");
-});
-
-numberStream.on("error", e => {
-  console.log("error: ", e);
-});
-
-numberStream.on("status", status => {
-  console.log("status:", status);
-});
+// numberStream.on("status", status => {
+//   console.log("status:", status);
+// });
