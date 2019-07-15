@@ -8,10 +8,10 @@ const stub = new routeguide.RouteGuide(
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
 const interceptorProvider = function(options, nextCall) {
-  console.log("options:", options);
+  // console.log("options:", options);
   var requester = {
     start: function(metadata, listener, next) {
-      // console.log("metadata start", metadata);
+      console.log("metadata start", metadata);
       var newListener = {
         onReceiveMetadata: function(metadata, next) {
           // console.log("metadata on Receive meta", metadata);
@@ -66,11 +66,12 @@ const ourNumber = {
 // );
 
 // SERVER STREAMING
-const numberStream = stub.streamNumbers(ourNumber, {
+const meta = new grpc.Metadata();
+meta.set("hello", "world");
+
+const numberStream = stub.streamNumbers(ourNumber, meta, {
   interceptors: [interceptorProvider]
 });
-
-console.log("numberStream", numberStream);
 
 // console.log("stub", stub.__proto__);
 
