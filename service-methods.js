@@ -10,4 +10,18 @@ function numberToNumber(call, callback) {
   callback(null, numberPlusFive(call.request));
 };
 
-module.exports = {numberToNumber}
+function streamNumbers(call) {
+  console.log('inside of streamNumbers');
+  const myInterval = setInterval(() => {
+    call.write(numberPlusFive(call.request));
+  }, 50);
+  setTimeout(() => {
+    clearInterval(myInterval);
+    call.end();
+  }, 500)
+}
+
+module.exports = {
+  numberToNumber,
+  streamNumbers
+}

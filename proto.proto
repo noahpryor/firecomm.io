@@ -4,6 +4,7 @@ package routeguide;
 
 service RouteGuide {
   rpc NumberToNumber(Number) returns (Number) {}
+  rpc StreamNumbers(Number) returns (stream Number) {}
 }
 
 // service RouteGuide2 {
