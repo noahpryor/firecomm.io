@@ -31,6 +31,7 @@ function numberToNumber(call, callback) {
   const meta = new grpc.Metadata();
   meta.set("hello", "world");
   call.sendMetadata(meta);
+  // first argument to callback is error
   callback(null, numberPlusFive(call.request), meta);
 }
 
@@ -38,7 +39,7 @@ function streamNumbers(call, callback) {
   console.log("streamNumbers callback:", callback);
   console.log(call);
   const meta = new grpc.Metadata();
-  meta.set("hello", "world");
+  meta.set("hello", "world2");
   call.sendMetadata(meta);
   const myInterval = setInterval(() => {
     call.write(numberPlusFive(call.request));
