@@ -14,7 +14,7 @@ const interceptorProvider = function(options, nextCall) {
       console.log("metadata start", metadata);
       var newListener = {
         onReceiveMetadata: function(metadata, next) {
-          // console.log("metadata on Receive meta", metadata);
+          console.log("metadata on Receive meta", metadata);
           next(metadata);
         },
         onReceiveMessage: function(message, next) {
@@ -56,37 +56,37 @@ const ourNumber = {
   number: 3
 };
 
-// stub.numberToNumber(
-//   ourNumber,
-//   { interceptors: [interceptorProvider] },
-//   function(err, number) {
-//     if (err) console.log(err);
-//     console.log(number);
-//   }
-// );
+stub.numberToNumber(
+  ourNumber,
+  { interceptors: [interceptorProvider] },
+  function(err, number) {
+    if (err) console.log(err);
+    console.log(number);
+  }
+);
 
-// SERVER STREAMING
-const meta = new grpc.Metadata();
-meta.set("hello", "world");
+// // SERVER STREAMING
+// const meta = new grpc.Metadata();
+// meta.set("hello", "world");
 
-const numberStream = stub.streamNumbers(ourNumber, meta, {
-  interceptors: [interceptorProvider]
-});
+// const numberStream = stub.streamNumbers(ourNumber, meta, {
+//   interceptors: [interceptorProvider]
+// });
 
-// console.log("stub", stub.__proto__);
+// // console.log("stub", stub.__proto__);
 
-numberStream.on("data", data => {
-  console.log("data: ", data);
-});
+// numberStream.on("data", data => {
+//   console.log("data: ", data);
+// });
 
-numberStream.on("end", () => {
-  console.log("end:");
-});
+// numberStream.on("end", () => {
+//   console.log("end:");
+// });
 
-numberStream.on("error", e => {
-  console.log("error: ", e);
-});
+// numberStream.on("error", e => {
+//   console.log("error: ", e);
+// });
 
-numberStream.on("status", status => {
-  console.log("status:", status);
-});
+// numberStream.on("status", status => {
+//   console.log("status:", status);
+// });

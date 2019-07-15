@@ -1,3 +1,4 @@
+const grpc = require("grpc");
 // function serverInterceptor(call, nextCall) {
 //   //if conditional
 //   nextCall(call)
@@ -24,15 +25,21 @@ function numberPlusFive({ number }) {
 //   request: { number: 3 } }
 
 function numberToNumber(call, callback) {
-  // console.log("inside of numberToNumber");
-  // console.log("callback", callback);
+  console.log("inside of numberToNumber");
+  console.log("callback", callback);
   console.log("call:", call);
-  callback(null, numberPlusFive(call.request));
+  const meta = new grpc.Metadata();
+  meta.set("hello", "world");
+  call.sendMetadata(meta);
+  callback(null, numberPlusFive(call.request), meta);
 }
 
-function streamNumbers(call) {
-  // console.log("inside of streamNumbers");
+function streamNumbers(call, callback) {
+  console.log("streamNumbers callback:", callback);
   console.log(call);
+  const meta = new grpc.Metadata();
+  meta.set("hello", "world");
+  call.sendMetadata(meta);
   const myInterval = setInterval(() => {
     call.write(numberPlusFive(call.request));
   }, 50);
