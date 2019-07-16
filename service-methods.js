@@ -52,7 +52,8 @@ function streamNumbers(call) {
 function bidiNumbers(call) {
   call.on("data", function(data) {
     console.log("data from client:", data);
-    call.write({ number: 17 });
+    const { number } = data;
+    call.write({ number: number ** 30 });
     /* For each note sent, respond with all previous notes that correspond to
      * the same point */
     // if (route_notes.hasOwnProperty(key)) {
