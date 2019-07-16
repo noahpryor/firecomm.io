@@ -4,8 +4,8 @@ package routeguide;
 
 service RouteGuide {
   rpc NumberToNumber(Number) returns (NumArray) {}
+  rpc BidiNumbers(stream Number) returns (stream Number) {}
   rpc StreamNumbers(Number) returns (stream NumArray) {}
-  rpc BiDiNumbers(stream Number) returns (stream Number) {}
 }
 
 // service RouteGuide2 {

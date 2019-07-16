@@ -49,19 +49,25 @@ function streamNumbers(call) {
   }, 500);
 }
 
-function bidiNumbers(call, callback) {
-  console.log("streamNumbers callback:", callback);
-  console.log(call);
-  const meta = new grpc.Metadata();
-  meta.set("hello", "world2");
-  call.sendMetadata(meta);
-  const myInterval = setInterval(() => {
-    call.write(numberPlusFive(call.request));
-  }, 50);
-  setTimeout(() => {
-    clearInterval(myInterval);
+function bidiNumbers(call) {
+  call.on("data", function(data) {
+    console.log("data from client:", data);
+    call.write({ number: 17 });
+    /* For each note sent, respond with all previous notes that correspond to
+     * the same point */
+    // if (route_notes.hasOwnProperty(key)) {
+    //   _.each(route_notes[key], function(note) {
+    //     call.write(note);
+    //   });
+    // } else {
+    //   route_notes[key] = [];
+    // }
+    // // Then add the new note to the list
+    // route_notes[key].push(JSON.parse(JSON.stringify(note)));
+  });
+  call.on("end", function() {
     call.end();
-  }, 500);
+  });
 }
 
 // function methodWrapper(method, interceptors) {

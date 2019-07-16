@@ -69,24 +69,38 @@ const ourNumber = {
 const meta = new grpc.Metadata();
 meta.set("hello", "world");
 
-const numberStream = stub.streamNumbers(ourNumber, meta, {
-  interceptors: [interceptorProvider]
+// const numberStream = stub.streamNumbers(ourNumber, meta, {
+//   interceptors: [interceptorProvider]
+// });
+
+// // console.log("stub", stub.__proto__);
+
+// numberStream.on("data", data => {
+//   console.log("data: ", data.numbers);
+// });
+
+// numberStream.on("end", () => {
+//   console.log("end:");
+// });
+
+// numberStream.on("error", e => {
+//   console.log("error: ", e);
+// });
+
+// numberStream.on("status", status => {
+//   console.log("status:", status);
+// });
+
+//instantiate connection to server, bidi is a readable and writable stream (duplex)
+const bidi = stub.bidiNumbers();
+
+//set event listener for readable stream
+bidi.on("data", data => {
+  console.log("data from server:", data);
 });
 
-// console.log("stub", stub.__proto__);
-
-numberStream.on("data", data => {
-  console.log("data: ", data.numbers);
-});
-
-numberStream.on("end", () => {
-  console.log("end:");
-});
-
-numberStream.on("error", e => {
-  console.log("error: ", e);
-});
-
-numberStream.on("status", status => {
-  console.log("status:", status);
-});
+//write to the stream
+setInterval(() => {
+  console.log("writing to server from client");
+  bidi.write(ourNumber);
+}, 1000);
