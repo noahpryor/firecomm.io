@@ -53,7 +53,7 @@ const interceptorProvider = function(options, nextCall) {
 // stub.numberToNumber.interceptors.push(interceptor);
 
 const ourNumber = {
-  number: 2
+  number: 10
 };
 
 // stub.numberToNumber(
@@ -94,13 +94,22 @@ meta.set("hello", "world");
 //instantiate connection to server, bidi is a readable and writable stream (duplex)
 const bidi = stub.bidiNumbers();
 
+let count = 1;
+
+bidi.write(ourNumber);
+console.time("label");
+
 //set event listener for readable stream
 bidi.on("data", data => {
-  console.log("data from server:", data);
+  // console.log("data from server:", data);
+  const { number } = data;
+  count += 2;
+  bidi.write({ number: number });
 });
 
-//write to the stream
-setInterval(() => {
-  console.log("writing to server from client");
-  bidi.write(ourNumber);
-}, 1000);
+bidi.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label");
+});
+
+console.log(54 / 399);

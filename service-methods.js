@@ -51,9 +51,13 @@ function streamNumbers(call) {
 
 function bidiNumbers(call) {
   call.on("data", function(data) {
-    console.log("data from client:", data);
+    // console.log("data from client:", data);
     const { number } = data;
-    call.write({ number: number ** 30 });
+    if (number === 0) {
+      call.end();
+    }
+    call.write({ number: Math.ceil(number ** 1.01) });
+
     /* For each note sent, respond with all previous notes that correspond to
      * the same point */
     // if (route_notes.hasOwnProperty(key)) {
@@ -67,6 +71,7 @@ function bidiNumbers(call) {
     // route_notes[key].push(JSON.parse(JSON.stringify(note)));
   });
   call.on("end", function() {
+    // console.log("ending");
     call.end();
   });
 }
