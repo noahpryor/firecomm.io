@@ -7,7 +7,7 @@ const grpc = require("grpc");
 //secret
 
 function numberPlusFive({ number }) {
-  return { number: number + 5 };
+  return { numbers: [number ** 5, number ** 3, number ** 65] };
 }
 
 //EXAMPLE CALL OBJECT
@@ -50,11 +50,27 @@ function streamNumbers(call, callback) {
   }, 500);
 }
 
+function bidiNumbers(call, callback) {
+  console.log("streamNumbers callback:", callback);
+  console.log(call);
+  const meta = new grpc.Metadata();
+  meta.set("hello", "world2");
+  call.sendMetadata(meta);
+  const myInterval = setInterval(() => {
+    call.write(numberPlusFive(call.request));
+  }, 50);
+  setTimeout(() => {
+    clearInterval(myInterval);
+    call.end();
+  }, 500);
+}
+
 // function methodWrapper(method, interceptors) {
 
 // }
 
 module.exports = {
   numberToNumber,
-  streamNumbers
+  streamNumbers,
+  bidiNumbers
 };

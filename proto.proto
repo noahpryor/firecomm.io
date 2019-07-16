@@ -3,12 +3,12 @@ syntax = "proto3";
 package routeguide;
 
 service RouteGuide {
-  rpc NumberToNumber(Number) returns (Number) {}
-  rpc StreamNumbers(Number) returns (stream Number) {}
+  rpc NumberToNumber(Number) returns (NumArray) {}
+  rpc StreamNumbers(Number) returns (stream NumArray) {}
 }
 
 // service RouteGuide2 {
 //   rpc NumberToNumber2(Number) returns (Number) {}
 // }
-
 message Number { int32 number = 1; }
+message NumArray { repeated uint64 numbers = 1; }

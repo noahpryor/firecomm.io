@@ -53,7 +53,7 @@ const interceptorProvider = function(options, nextCall) {
 // stub.numberToNumber.interceptors.push(interceptor);
 
 const ourNumber = {
-  number: 3
+  number: 2
 };
 
 // stub.numberToNumber(
@@ -76,7 +76,7 @@ const numberStream = stub.streamNumbers(ourNumber, meta, {
 // console.log("stub", stub.__proto__);
 
 numberStream.on("data", data => {
-  console.log("data: ", data);
+  console.log("data: ", data.numbers);
 });
 
 numberStream.on("end", () => {
