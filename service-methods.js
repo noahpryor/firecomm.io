@@ -35,8 +35,7 @@ function numberToNumber(call, callback) {
   callback(null, numberPlusFive(call.request), meta);
 }
 
-function streamNumbers(call, callback) {
-  console.log("streamNumbers callback:", callback);
+function streamNumbers(call) {
   console.log(call);
   const meta = new grpc.Metadata();
   meta.set("hello", "world2");
