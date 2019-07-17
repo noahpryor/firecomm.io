@@ -1,4 +1,5 @@
-const routeguide = require("./routeguide");
+const {routeguide} = require("./routeguide");
+// const {routeguide} = require("./streaming-package");
 const grpc = require("grpc");
 
 const {
@@ -7,12 +8,19 @@ const {
   bidiNumbers
 } = require("./service-methods");
 
+const {
+  bidiTwice,
+} = require("./streaming-methods");
+
 function getServer() {
   var server = new grpc.Server();
   server.addService(routeguide.RouteGuide.service, {
     numberToNumber,
     streamNumbers,
-    bidiNumbers
+    bidiNumbers,
+  });
+  server.addService(routeguide.Streaming.service, {
+    bidiTwice,
   });
   return server;
 }

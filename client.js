@@ -1,5 +1,5 @@
 const grpc = require("grpc");
-const routeguide = require("./routeguide");
+const {routeguide} = require("./routeguide");
 
 const stub = new routeguide.RouteGuide(
   "localhost:3000",
@@ -44,57 +44,16 @@ const interceptorProvider = function(options, nextCall) {
   return new grpc.InterceptingCall(nextCall(options), requester);
 };
 
-// console.log(grpc);
-// const provider = grpc.InterceptorProvider(stub.numberToNumber.path);
-// console.log(provider)
-
-// console.log('path', stub.numberToNumber.path)
-
-// stub.numberToNumber.interceptors.push(interceptor);
-
 const ourNumber = {
   number: 10
 };
-
-// stub.numberToNumber(
-//   ourNumber,
-//   { interceptors: [interceptorProvider] },
-//   function(err, number) {
-//     if (err) console.log(err);
-//     console.log(number);
-//   }
-// );
 
 // SERVER STREAMING
 const meta = new grpc.Metadata();
 meta.set("hello", "world");
 
-// const numberStream = stub.streamNumbers(ourNumber, meta, {
-//   interceptors: [interceptorProvider]
-// });
-
-// // console.log("stub", stub.__proto__);
-
-// numberStream.on("data", data => {
-//   console.log("data: ", data.numbers);
-// });
-
-// numberStream.on("end", () => {
-//   console.log("end:");
-// });
-
-// numberStream.on("error", e => {
-//   console.log("error: ", e);
-// });
-
-// numberStream.on("status", status => {
-//   console.log("status:", status);
-// });
-
 //instantiate connection to server, bidi is a readable and writable stream (duplex)
 const bidi = stub.bidiNumbers();
-
-let count = 1;
 
 bidi.write(ourNumber);
 console.time("label");
@@ -103,7 +62,6 @@ console.time("label");
 bidi.on("data", data => {
   // console.log("data from server:", data);
   const { number } = data;
-  count += 2;
   bidi.write({ number: number });
 });
 
@@ -112,4 +70,4 @@ bidi.on("end", () => {
   console.timeEnd("label");
 });
 
-console.log(54 / 399);
+console.log('bidiTwice', 54 / 399);
