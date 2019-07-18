@@ -27,4 +27,5 @@ function getServer() {
 
 var routeServer = getServer();
 routeServer.bind("0.0.0.0:3000", grpc.ServerCredentials.createInsecure());
+routeServer.bind("0.0.0.0:2999", grpc.ServerCredentials.createInsecure());
 routeServer.start();

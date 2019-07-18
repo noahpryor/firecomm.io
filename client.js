@@ -3,7 +3,12 @@ const {routeguide} = require("./routeguide");
 
 const stub = new routeguide.RouteGuide(
   "localhost:3000",
-  grpc.credentials.createInsecure()
+  grpc.credentials.createInsecure(),
+  // {channelOverride: 
+  //   new grpc.Channel(
+  //     "localhost:2999", 
+  //     grpc.credentials.createInsecure(),
+  //     )}
 );
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
