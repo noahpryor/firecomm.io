@@ -4,11 +4,11 @@ const {routeguide} = require("./routeguide");
 const stub = new routeguide.RouteGuide(
   "localhost:3000",
   grpc.credentials.createInsecure(),
-  // {channelOverride: 
-  //   new grpc.Channel(
-  //     "localhost:2999", 
-  //     grpc.credentials.createInsecure(),
-  //     )}
+);
+
+const stub2 = new routeguide.RouteGuide(
+  "localhost:2998",
+  grpc.credentials.createInsecure(),
 );
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
@@ -73,6 +73,39 @@ bidi.on("data", data => {
 bidi.on("end", () => {
   // console.log("end:", count);
   console.timeEnd("label");
+});
+
+stub.numberToNumber({number: 3}, function(err, response) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(response);
+  }
+});
+
+const bidi2 = stub2.bidiNumbers();
+
+bidi2.write(ourNumber);
+console.time("label2");
+
+//set event listener for readable stream
+bidi2.on("data", data => {
+  // console.log("data from server:", data);
+  const { number } = data;
+  bidi2.write({ number: number });
+});
+
+bidi2.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label2");
+});
+
+stub2.numberToNumber({number: 99}, function(err, response) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(response);
+  }
 });
 
 console.log('bidiTwice', 54 / 399);

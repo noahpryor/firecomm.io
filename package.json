@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "client": "node client.js",
-    "stream": "node streaming-client.js"
+    "client": "nodemon client.js",
+    "stream": "nodemon streaming-client.js"
   },
   "repository": {
     "type": "git",
