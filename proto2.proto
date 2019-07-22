@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package extension;
+
+service Extend {
+  rpc NumberToNumArr(Number) returns (NumArray) {}
+}
+
+message Number { 
+  int32 number = 1;
+}
+message NumArray { 
+  repeated uint64 numbers = 1; 
+}

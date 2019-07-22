@@ -1,5 +1,7 @@
 const grpc = require("grpc");
 const {routeguide} = require("./routeguide");
+const {extension} = require("./extension-loader");
+
 
 const stub = new routeguide.RouteGuide(
   "localhost:3000",
@@ -15,6 +17,12 @@ const stub3 = new routeguide.Streaming(
   "localhost:5555",
   grpc.credentials.createInsecure(),
 );
+
+const xStub = new extension.Extend(
+  "localhost:6666",
+  grpc.credentials.createInsecure(),
+)
+
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
 const interceptorProvider = function(options, nextCall) {
@@ -88,6 +96,14 @@ stub.numberToNumber({number: 3}, function(err, response) {
   }
 });
 
+xStub.numberToNumArr({number: 19}, function(err, response) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('extension', response);
+  }
+});
+
 const bidi2 = stub2.bidiNumbers();
 
 bidi2.write(ourNumber);
@@ -120,7 +136,7 @@ console.time("label3");
 
 //set event listener for readable stream
 bidi3.on("data", data => {
-  console.log("data from server:", data);
+  // console.log("data from server:", data);
   const { number } = data;
   bidi3.write({ number: number });
 });
