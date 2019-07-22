@@ -11,6 +11,11 @@ const stub2 = new routeguide.RouteGuide(
   grpc.credentials.createInsecure(),
 );
 
+const stub3 = new routeguide.Streaming(
+  "localhost:5555",
+  grpc.credentials.createInsecure(),
+);
+
 // console.log(Object.keys(stub.__proto__.numberToNumber));
 const interceptorProvider = function(options, nextCall) {
   // console.log("options:", options);
@@ -108,4 +113,48 @@ stub2.numberToNumber({number: 99}, function(err, response) {
   }
 });
 
-console.log('bidiTwice', 54 / 399);
+const bidi3 = stub3.bidiTwice();
+
+bidi3.write(ourNumber);
+console.time("label3");
+
+//set event listener for readable stream
+bidi3.on("data", data => {
+  console.log("data from server:", data);
+  const { number } = data;
+  bidi3.write({ number: number });
+});
+
+bidi3.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label3"); 
+});
+
+const {
+  numberToNumber,
+  streamNumbers,
+  bidiNumbers
+} = require("./service-methods");
+
+const {
+  bidiTwice,
+} = require("./streaming-methods");
+
+function getServer() {
+  var server = new grpc.Server();
+  server.addService(routeguide.RouteGuide.service, {
+    numberToNumber,
+    streamNumbers,
+    bidiNumbers,
+  });
+  server.addService(routeguide.Streaming.service, {
+    bidiTwice,
+  });
+  return server;
+}
+
+console.log('bidiTwice', 54 / 399); 
+
+const routeServer = getServer();
+routeServer.bind("0.0.0.0:5555", grpc.ServerCredentials.createInsecure());
+routeServer.start();

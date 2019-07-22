@@ -6,7 +6,7 @@ const {
   numberToNumber,
   streamNumbers,
   bidiNumbers
-} = require("./service-methods");
+} = require("./service-methods"); 
 
 const {
   bidiTwice,
@@ -22,11 +22,13 @@ function getServer() {
   server.addService(routeguide.Streaming.service, {
     bidiTwice,
   });
-  return server;
-}
+  return server; 
+} 
 
-var routeServer = getServer();
+const routeServer = getServer();
 routeServer.bind("0.0.0.0:3000", grpc.ServerCredentials.createInsecure());
 routeServer.bind("0.0.0.0:2999", grpc.ServerCredentials.createInsecure());
 routeServer.bind("0.0.0.0:2998", grpc.ServerCredentials.createInsecure());
+routeServer.bind("0.0.0.0:2997", grpc.ServerCredentials.createInsecure());
+ 
 routeServer.start();

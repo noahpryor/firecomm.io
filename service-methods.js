@@ -1,7 +1,7 @@
 const grpc = require("grpc");
 // function serverInterceptor(call, nextCall) {
 //   //if conditional
-//   nextCall(call)
+//   nextCall(call) 
 // }
 
 //secret
@@ -25,9 +25,9 @@ function numberPlusFive({ number }) {
 //   request: { number: 3 } }
 
 function numberToNumber(call, callback) {
-  console.log("inside of numberToNumber");
-  console.log("callback", callback);
-  console.log("call:", call);
+  // console.log("inside of numberToNumber");
+  // console.log("callback", callback);
+  // console.log("call:", call);
   const meta = new grpc.Metadata();
   meta.set("hello", "world");
   call.sendMetadata(meta);
@@ -36,7 +36,7 @@ function numberToNumber(call, callback) {
 }
 
 function streamNumbers(call) {
-  console.log(call);
+  // console.log(call);
   const meta = new grpc.Metadata();
   meta.set("hello", "world2");
   call.sendMetadata(meta);
@@ -53,9 +53,9 @@ function bidiNumbers(call) {
   call.on("data", function(data) {
     // console.log("data from client:", data);
     const { number } = data;
-    if (number === 0) {
-      call.end();
-    }
+    // if (number === 0) {
+    //   call.end();
+    // }
     call.write({ number: Math.ceil(number ** 1.01) });
   });
   call.on("end", function() {

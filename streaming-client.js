@@ -11,6 +11,16 @@ const stub = new routeguide.Streaming(
   //     )}
 );
 
+const stub2 = new routeguide.Streaming(
+  "localhost:5555",
+  grpc.credentials.createInsecure(),
+  // {channelOverride: 
+  //   new grpc.Channel(
+  //     "localhost:3000", 
+  //     grpc.credentials.createInsecure(),
+  //     )}
+);
+
 // console.log(Object.keys(stub.__proto__.numberToNumber));
 const interceptor = function(options, nextCall) {
   console.log("options:", options);
@@ -68,7 +78,7 @@ console.time("label");
 
 //set event listener for readable stream
 bidi.on("data", data => {
-  // console.log("data from server:", data);
+  console.log("data from og:", data);
   const { number } = data;
   bidi.write({ number: number });
 });
@@ -78,4 +88,21 @@ bidi.on("end", () => {
   console.timeEnd("label");
 });
 
-console.log('bidiTwice', 54 / 399);
+const bidi2 = stub2.bidiTwice();
+
+bidi2.write(ourNumber);
+console.time("label2");
+
+//set event listener for readable stream
+bidi2.on("data", data => {
+  console.log("data from server:", data);
+  const { number } = data;
+  bidi2.write({ number: number + 1 });
+});
+ 
+bidi2.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label2");
+});
+
+// console.log('bidiTwice', 54 / 399);
