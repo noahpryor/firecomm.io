@@ -1,5 +1,5 @@
 const path = require('path');
-const PROTO_PATH = path.join(__dirname, './proto.proto');
+const PROTO_PATH = path.join(__dirname, './proto2.proto');
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 // Suggested options for similarity to existing grpc.load behavior

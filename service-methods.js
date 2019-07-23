@@ -1,13 +1,13 @@
 const grpc = require("grpc");
 // function serverInterceptor(call, nextCall) {
 //   //if conditional
-//   nextCall(call)
+//   nextCall(call) 
 // }
 
 //secret
 
 function numberPlusFive({ number }) {
-  return { number: number + 5 };
+  return { numbers: [number ** 5, number ** 3, number ** 65] };
 }
 
 //EXAMPLE CALL OBJECT
@@ -25,9 +25,9 @@ function numberPlusFive({ number }) {
 //   request: { number: 3 } }
 
 function numberToNumber(call, callback) {
-  console.log("inside of numberToNumber");
-  console.log("callback", callback);
-  console.log("call:", call);
+  // console.log("inside of numberToNumber");
+  // console.log("callback", callback);
+  // console.log("call:", call);
   const meta = new grpc.Metadata();
   meta.set("hello", "world");
   call.sendMetadata(meta);
@@ -35,9 +35,8 @@ function numberToNumber(call, callback) {
   callback(null, numberPlusFive(call.request), meta);
 }
 
-function streamNumbers(call, callback) {
-  console.log("streamNumbers callback:", callback);
-  console.log(call);
+function streamNumbers(call) {
+  // console.log(call);
   const meta = new grpc.Metadata();
   meta.set("hello", "world2");
   call.sendMetadata(meta);
@@ -50,11 +49,22 @@ function streamNumbers(call, callback) {
   }, 500);
 }
 
-// function methodWrapper(method, interceptors) {
-
-// }
+function bidiNumbers(call) {
+  call.on("data", function(data) {
+    // console.log("data from client:", data);
+    const { number } = data;
+    // if (number === 0) {
+    //   call.end();
+    // }
+    call.write({ number: Math.ceil(number ** 1.01) });
+  });
+  call.on("end", function() {
+    call.end();
+  });
+}
 
 module.exports = {
   numberToNumber,
-  streamNumbers
+  streamNumbers,
+  bidiNumbers
 };

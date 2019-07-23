@@ -1,9 +1,24 @@
 const grpc = require("grpc");
-const routeguide = require("./routeguide");
+const {routeguide} = require("./routeguide");
 
-const stub = new routeguide.RouteGuide(
-  "localhost:3000",
-  grpc.credentials.createInsecure()
+const stub = new routeguide.Streaming(
+  "localhost:2999",
+  grpc.credentials.createInsecure(),
+  // {channelOverride: 
+  //   new grpc.Channel(
+  //     "localhost:3000", 
+  //     grpc.credentials.createInsecure(),
+  //     )}
+);
+
+const stub2 = new routeguide.Streaming(
+  "localhost:5555",
+  grpc.credentials.createInsecure(),
+  // {channelOverride: 
+  //   new grpc.Channel(
+  //     "localhost:3000", 
+  //     grpc.credentials.createInsecure(),
+  //     )}
 );
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
@@ -53,34 +68,41 @@ const interceptor = function(options, nextCall) {
 // stub.numberToNumber.interceptors.push(interceptor);
 
 const ourNumber = {
-  number: 3
+  number: 4
 };
 
-stub.numberToNumber(ourNumber, { interceptors: [interceptor] }, function(
-  err,
-  number
-) {
-  if (err) console.log(err);
-  console.log(number);
+const bidi = stub.bidiTwice();
+
+bidi.write(ourNumber);
+console.time("label");
+
+//set event listener for readable stream
+bidi.on("data", data => {
+  console.log("data from og:", data);
+  const { number } = data;
+  bidi.write({ number: number });
 });
 
-// SERVER STREAMING
-// const numberStream = stub.streamNumbers(ourNumber, {
-//   interceptors: [interceptor]
-// });
+bidi.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label");
+});
 
-// numberStream.on("data", data => {
-//   console.log("data: ", data);
-// });
+const bidi2 = stub2.bidiTwice();
 
-// numberStream.on("end", () => {
-//   console.log("end:");
-// });
+bidi2.write(ourNumber);
+console.time("label2");
 
-// numberStream.on("error", e => {
-//   console.log("error: ", e);
-// });
+//set event listener for readable stream
+bidi2.on("data", data => {
+  console.log("data from server:", data);
+  const { number } = data;
+  bidi2.write({ number: number + 1 });
+});
+ 
+bidi2.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label2");
+});
 
-// numberStream.on("status", status => {
-//   console.log("status:", status);
-// });
+// console.log('bidiTwice', 54 / 399);

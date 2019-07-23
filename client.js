@@ -1,10 +1,28 @@
 const grpc = require("grpc");
-const routeguide = require("./routeguide");
+const {routeguide} = require("./routeguide");
+const {extension} = require("./extension-loader");
+
 
 const stub = new routeguide.RouteGuide(
   "localhost:3000",
-  grpc.credentials.createInsecure()
+  grpc.credentials.createInsecure(),
 );
+
+const stub2 = new routeguide.RouteGuide(
+  "localhost:2998",
+  grpc.credentials.createInsecure(),
+);
+
+const stub3 = new routeguide.Streaming(
+  "localhost:5555",
+  grpc.credentials.createInsecure(),
+);
+
+const xStub = new extension.Extend(
+  "localhost:6666",
+  grpc.credentials.createInsecure(),
+)
+
 
 // console.log(Object.keys(stub.__proto__.numberToNumber));
 const interceptorProvider = function(options, nextCall) {
@@ -44,49 +62,115 @@ const interceptorProvider = function(options, nextCall) {
   return new grpc.InterceptingCall(nextCall(options), requester);
 };
 
-// console.log(grpc);
-// const provider = grpc.InterceptorProvider(stub.numberToNumber.path);
-// console.log(provider)
-
-// console.log('path', stub.numberToNumber.path)
-
-// stub.numberToNumber.interceptors.push(interceptor);
-
 const ourNumber = {
-  number: 3
+  number: 10
 };
-
-// stub.numberToNumber(
-//   ourNumber,
-//   { interceptors: [interceptorProvider] },
-//   function(err, number) {
-//     if (err) console.log(err);
-//     console.log(number);
-//   }
-// );
 
 // SERVER STREAMING
 const meta = new grpc.Metadata();
 meta.set("hello", "world");
 
-const numberStream = stub.streamNumbers(ourNumber, meta, {
-  interceptors: [interceptorProvider]
+//instantiate connection to server, bidi is a readable and writable stream (duplex)
+const bidi = stub.bidiNumbers();
+
+bidi.write(ourNumber);
+console.time("label");
+
+//set event listener for readable stream
+bidi.on("data", data => {
+  // console.log("data from server:", data);
+  const { number } = data;
+  bidi.write({ number: number });
 });
 
-// console.log("stub", stub.__proto__);
-
-numberStream.on("data", data => {
-  console.log("data: ", data);
+bidi.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label");
 });
 
-numberStream.on("end", () => {
-  console.log("end:");
+stub.numberToNumber({number: 3}, function(err, response) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(response);
+  }
 });
 
-numberStream.on("error", e => {
-  console.log("error: ", e);
+xStub.numberToNumArr({number: 19}, function(err, response) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('extension', response);
+  }
 });
 
-numberStream.on("status", status => {
-  console.log("status:", status);
+const bidi2 = stub2.bidiNumbers();
+
+bidi2.write(ourNumber);
+console.time("label2");
+
+//set event listener for readable stream
+bidi2.on("data", data => {
+  // console.log("data from server:", data);
+  const { number } = data;
+  bidi2.write({ number: number });
 });
+
+bidi2.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label2");
+});
+
+stub2.numberToNumber({number: 99}, function(err, response) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(response);
+  }
+});
+
+const bidi3 = stub3.bidiTwice();
+
+bidi3.write(ourNumber);
+console.time("label3");
+
+//set event listener for readable stream
+bidi3.on("data", data => {
+  // console.log("data from server:", data);
+  const { number } = data;
+  bidi3.write({ number: number });
+});
+
+bidi3.on("end", () => {
+  // console.log("end:", count);
+  console.timeEnd("label3"); 
+});
+
+const {
+  numberToNumber,
+  streamNumbers,
+  bidiNumbers
+} = require("./service-methods");
+
+const {
+  bidiTwice,
+} = require("./streaming-methods");
+
+function getServer() {
+  var server = new grpc.Server();
+  server.addService(routeguide.RouteGuide.service, {
+    numberToNumber,
+    streamNumbers,
+    bidiNumbers,
+  });
+  server.addService(routeguide.Streaming.service, {
+    bidiTwice,
+  });
+  return server;
+}
+
+console.log('bidiTwice', 54 / 399); 
+
+const routeServer = getServer();
+routeServer.bind("0.0.0.0:5555", grpc.ServerCredentials.createInsecure());
+routeServer.start();
