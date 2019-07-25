@@ -1,0 +1,12 @@
+.hamburger-flex {
+  background-color: blue;
+  width: 100%;
+  height: 50px;
+  display: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .hamburger-flex {
+    display: flex;
+  }
+}
