@@ -1,20 +1,13 @@
 const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 
 module.exports = {
-    mode : 'development',
+    mode: 'development',
     entry: path.join(__dirname, './index.js'),
     devServer: {
         publicPath: '/build',
-        hot:true,
+        hot: true,
+        port: 8080
     },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css',
-        }),
-    ],
     output: {
         filename: "bundle.js",
         path: (__dirname + '/build'),
@@ -34,9 +27,20 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                //include: /(client\/scss)/,
-                use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
-            }
+                use: ["style-loader", "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/'
+                        }
+                    }
+                ]
+            },
         ]
     }
 }
