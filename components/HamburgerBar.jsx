@@ -1,12 +1,26 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default class HamburgerBar extends React.Component {
+import { toggleSidebar } from "../actions/actions";
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleSidebar: () => dispatch(toggleSidebar())
+  };
+};
+
+class HamburgerBar extends React.Component {
   render() {
     return (
       <section className="hamburger-flex">
-        <button>Toggle me</button>
+        <button onClick={this.props.toggleSidebar}>Toggle me</button>
         <h1>{this.props.section}</h1>
       </section>
     );
   }
 }
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(HamburgerBar);

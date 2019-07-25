@@ -2,11 +2,11 @@
   background-color: blue;
   width: 100%;
   height: 50px;
-  display: none;
+  display: flex;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (min-width: 480px) {
   .hamburger-flex {
-    display: flex;
+    display: none;
   }
 }

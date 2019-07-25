@@ -1,1 +1,2 @@
 export const CHANGE_SECTION = "CHANGE_SECTION";
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
