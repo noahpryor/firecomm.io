@@ -1,7 +1,10 @@
 import * as types from "../constants/actionTypes";
 
-export function toggleSidebar() {
-  return {
-    type: types.TOGGLE_SIDEBAR
-  };
-}
+export const toggleSidebar = () => ({
+  type: types.TOGGLE_SIDEBAR
+})
+
+export const changeSection = (title) => ({
+  type: types.CHANGE_SECTION,
+  payload: title
+})

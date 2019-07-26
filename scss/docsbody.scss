@@ -1,0 +1,14 @@
+#DocsBody {
+  display: flex;
+  flex-direction: end;
+  background-color: orange;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 480px) {
+    #DocsBody {
+      align-items: center;
+      justify-content: center;
+    }
+  }
