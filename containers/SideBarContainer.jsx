@@ -1,30 +1,44 @@
-import React, { Component } from "react";
-import Section from '../components/Section.jsx'
-import {changeSection} from '../actions/actions'
+import React, { Component } from 'react';
+import Section from '../components/Section.jsx';
+import { changeSection, fillDocs } from '../actions/actions';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 const mapStateToProps = store => ({
-    sidebarActive: store.docs.sidebarActive
-  })
+  sidebarActive: store.docs.sidebarActive
+});
 
-const mapDispatchToProps = (dispatch) => ({
-  changeSection: (sectionName) => dispatch(changeSection(sectionName))
-})
-
+const mapDispatchToProps = dispatch => ({
+  changeSection: sectionName => dispatch(changeSection(sectionName)),
+  fillDocs: sectionName => dispatch(fillDocs(sectionName))
+});
 
 class SidebarContainer extends Component {
   componentDidUpdate() {
-    console.log("sidebaractive:", this.props.sidebarActive);
+    console.log('sidebaractive:', this.props.sidebarActive);
   }
   render() {
     if (this.props.sidebarActive) {
       return (
-        <section id="sidebar" >
-        <Section name=" introduction" changeSection={() => this.props.changeSection('introduction')} />
-        <Section name="basic" onClick={() => alert('basic')} changeSection={() => this.props.changeSection('basic')}/>
-        <Section name="advanced" onClick={() => alert('advanced')} changeSection={() => this.props.changeSection('advanced')}/>
-         </section>
+        <section id="sidebar">
+          <Section
+            name=" introduction"
+            changeSection={() => this.props.changeSection('introduction')}
+            fillDocs={() => this.props.fillDocs('introduction')}
+          />
+          <Section
+            name="basic"
+            onClick={() => alert('basic')}
+            changeSection={() => this.props.changeSection('basic')}
+            fillDocs={() => this.props.fillDocs('basic')}
+          />
+          <Section
+            name="advanced"
+            onClick={() => alert('advanced')}
+            changeSection={() => this.props.changeSection('advanced')}
+            fillDocs={() => this.props.fillDocs('advanced')}
+          />
+        </section>
       );
     } else {
       return null;

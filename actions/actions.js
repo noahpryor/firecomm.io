@@ -8,3 +8,8 @@ export const changeSection = (title) => ({
   type: types.CHANGE_SECTION,
   payload: title
 })
+
+export const fillDocs = (title) => ({
+  type: types.FILL_DOCS,
+  payload: title
+})

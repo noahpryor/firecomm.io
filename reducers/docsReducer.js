@@ -1,4 +1,5 @@
 import * as types from "../constants/actionTypes";
+import db from '../db'
 
 const defaultState = {
   section: "Introduction",
@@ -19,6 +20,12 @@ const docsReducer = (store = defaultState, action) => {
       storeCopy.sidebarActive = !store.sidebarActive;
       console.log({ storeCopy });
       return storeCopy;
+      case types.FILL_DOCS:
+        console.log('fill docs reducer')
+        const storeFillDocs = {...store}
+        storeFillDocs.content = db[action.payload]
+        console.log(action.payload)
+        return storeFillDocs
     default:
       return store;
   }
