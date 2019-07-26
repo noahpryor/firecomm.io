@@ -1,11 +1,16 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 
 class Section extends Component {
-
-    render() {
-        return(<h5 onClick={this.props.changeSection}>{this.props.name}</h5>)  
-    }
+  render() {
+    return (
+      <h4
+        id="SectionItem"
+        onClick={(this.props.changeSection, this.props.fillDocs)}>
+        {this.props.name}
+      </h4>
+      
+    );
+  }
 }
 
-export default Section
-
+export default Section;
