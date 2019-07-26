@@ -1,12 +1,17 @@
 import React, { Component } from "react";
+import Section from '../components/Section.jsx'
+import {changeSection} from '../actions/actions'
 
 import { connect } from "react-redux";
 
-const mapStateToProps = store => {
-  return {
+const mapStateToProps = store => ({
     sidebarActive: store.docs.sidebarActive
-  };
-};
+  })
+
+const mapDispatchToProps = (dispatch) => ({
+  changeSection: (sectionName) => dispatch(changeSection(sectionName))
+})
+
 
 class SidebarContainer extends Component {
   componentDidUpdate() {
@@ -15,9 +20,11 @@ class SidebarContainer extends Component {
   render() {
     if (this.props.sidebarActive) {
       return (
-        <section id="sidebar">
-          <h1>This is a Sidebar component</h1>
-        </section>
+        <section id="sidebar" >
+        <Section name=" introduction" changeSection={() => this.props.changeSection('introduction')} />
+        <Section name="basic" onClick={() => alert('basic')} changeSection={() => this.props.changeSection('basic')}/>
+        <Section name="advanced" onClick={() => alert('advanced')} changeSection={() => this.props.changeSection('advanced')}/>
+         </section>
       );
     } else {
       return null;
@@ -27,5 +34,5 @@ class SidebarContainer extends Component {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(SidebarContainer);

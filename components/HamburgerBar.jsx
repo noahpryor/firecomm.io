@@ -3,9 +3,16 @@ import { connect } from "react-redux";
 
 import { toggleSidebar } from "../actions/actions";
 
+const mapStateToProps = store => {
+  return {
+    section: store.docs.section
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     toggleSidebar: () => dispatch(toggleSidebar())
+
   };
 };
 
@@ -13,7 +20,7 @@ class HamburgerBar extends React.Component {
   render() {
     return (
       <section className="hamburger-flex">
-        <button onClick={this.props.toggleSidebar}>Toggle me</button>
+        <button onClick={this.props.toggleSidebar}> ☰ </button>
         <h1>{this.props.section}</h1>
       </section>
     );
@@ -21,6 +28,6 @@ class HamburgerBar extends React.Component {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(HamburgerBar);
