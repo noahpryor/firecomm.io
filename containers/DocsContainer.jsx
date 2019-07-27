@@ -17,7 +17,9 @@ class DocsContainer extends Component {
         <HamburgerBar section={this.props.section} />
         <section id="DocsContainer">
           <SideBarContainer />
-          <DocsBody content={this.props.content} />
+          <DocsBody />
+          {/* <DocsBody content='asdfghjkl' /> */}
+
         </section>
       </section>
     );

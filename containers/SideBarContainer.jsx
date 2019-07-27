@@ -21,9 +21,9 @@ class SidebarContainer extends Component {
     if (this.props.sidebarActive) {
       return (
         <section id="sidebar" >
-        <Section name=" introduction" changeSection={() => this.props.changeSection('introduction')} />
-        <Section name="basic" onClick={() => alert('basic')} changeSection={() => this.props.changeSection('basic')}/>
-        <Section name="advanced" onClick={() => alert('advanced')} changeSection={() => this.props.changeSection('advanced')}/>
+        <Section name="introduction" changeSection={() => this.props.changeSection('introduction')} />
+        <Section name="basic" changeSection={() => this.props.changeSection('basic')}/>
+        <Section name="advanced" changeSection={() => this.props.changeSection('advanced')}/>
          </section>
       );
     } else {

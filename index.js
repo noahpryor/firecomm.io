@@ -15,7 +15,7 @@ render(
       <Route path="*" component={Nav} />
       <Switch>
         <Route exact path="/" component={HeroContainer} />
-        <Route path="/docs" component={DocsContainer} />
+        <Route path="/docs" component={DocsContainer} /> 
         <Route component={NotFound} />
       </Switch>
     </Router>
