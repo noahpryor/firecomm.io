@@ -5,10 +5,13 @@ class Section extends Component {
     return (
       <h4
         id="SectionItem"
-        onClick={(this.props.changeSection, this.props.fillDocs)}>
+        onClick={() => {
+          this.props.changeSection();
+          this.props.fillDocs();
+        }}
+      >
         {this.props.name}
       </h4>
-      
     );
   }
 }
