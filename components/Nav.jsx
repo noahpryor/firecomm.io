@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import SearchBarContainer from '../containers/SearchBarContainer.jsx'
 
 class Nav extends Component {
   render() {
     return (
       <div id="navigation-bar">
         <span className="navbar-toggle" id="js-navbar-toggle">
-        <button>MENU</button>
+        <SearchBarContainer />
         </span>
         <ul id="nav">
           <li>
@@ -24,4 +26,4 @@ class Nav extends Component {
   }
 }
 
-export default Nav;
+export default Nav
