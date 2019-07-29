@@ -19,13 +19,14 @@ class SidebarContainer extends Component {
     console.log("sidebaractive:", this.props.sidebarActive);
   }
   render() {
-    const sectionArr = this.props.sections.map((val, i) => (
+    const sectionArr = Object.keys(this.props.sections).map((val, i) => (
       <Section
         key={i}
         name={val}
         changeSection={() => this.props.changeSection(val)}
         fillDocs={() => this.props.fillDocs(val)}>
       </Section>
+      
     ))
     if (this.props.sidebarActive) {
       return (
