@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import Section from '../components/Section.jsx';
-import { changeSection, fillDocs } from '../actions/actions';
+import React, { Component } from "react";
+import Section from "../components/Section.jsx";
+import { changeSection, fillDocs } from "../actions/actions";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 const mapStateToProps = store => ({
-  sidebarActive: store.docs.sidebarActive
+  sidebarActive: store.docs.sidebarActive,
+  sections: store.docs.sections
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -15,29 +16,22 @@ const mapDispatchToProps = dispatch => ({
 
 class SidebarContainer extends Component {
   componentDidUpdate() {
-    console.log('sidebaractive:', this.props.sidebarActive);
+    console.log("sidebaractive:", this.props.sidebarActive);
   }
   render() {
+    const sectionArr = Object.keys(this.props.sections).map((val, i) => (
+      <Section
+        key={i}
+        name={val}
+        changeSection={() => this.props.changeSection(val)}
+        fillDocs={() => this.props.fillDocs(val)}>
+      </Section>
+      
+    ))
     if (this.props.sidebarActive) {
       return (
         <section id="sidebar">
-          <Section
-            name=" introduction"
-            changeSection={() => this.props.changeSection('introduction')}
-            fillDocs={() => this.props.fillDocs('introduction')}
-          />
-          <Section
-            name="basic"
-            onClick={() => alert('basic')}
-            changeSection={() => this.props.changeSection('basic')}
-            fillDocs={() => this.props.fillDocs('basic')}
-          />
-          <Section
-            name="advanced"
-            onClick={() => alert('advanced')}
-            changeSection={() => this.props.changeSection('advanced')}
-            fillDocs={() => this.props.fillDocs('advanced')}
-          />
+          {sectionArr}
         </section>
       );
     } else {
