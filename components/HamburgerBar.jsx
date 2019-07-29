@@ -1,17 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { toggleSidebar } from '../actions/actions';
+import React from "react";
+import { connect } from "react-redux";
+import { toggleSidebar } from "../actions/actions";
 
 const mapStateToProps = store => {
   return {
     section: store.docs.section,
-    content: store.docs.content,
+    content: store.docs.content
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleSidebar: () => dispatch(toggleSidebar()),
+    toggleSidebar: () => dispatch(toggleSidebar())
   };
 };
 

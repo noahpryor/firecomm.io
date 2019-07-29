@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import Section from "../components/Section.jsx";
-import { changeSection, fillDocs } from "../actions/actions";
+import { changeSection, fillDocs, toggleSubSection } from "../actions/actions";
 
 import { connect } from "react-redux";
 
 const mapStateToProps = store => ({
   sidebarActive: store.docs.sidebarActive,
-  sections: store.docs.sections
+  sections: store.docs.sections,
+  subSectionsActive: store.docs.subSectionsActive
 });
 
 const mapDispatchToProps = dispatch => ({
   changeSection: sectionName => dispatch(changeSection(sectionName)),
-  fillDocs: sectionName => dispatch(fillDocs(sectionName))
+  fillDocs: sectionName => dispatch(fillDocs(sectionName)),
+  toggleSubSection: sectionName => dispatch(toggleSubSection(sectionName))
 });
 
 class SidebarContainer extends Component {
@@ -24,14 +26,23 @@ class SidebarContainer extends Component {
         key={i}
         name={val}
         changeSection={() => this.props.changeSection(val)}
-        fillDocs={() => this.props.fillDocs(val)}>
-      </Section>
-      
-    ))
-    if (this.props.sidebarActive) {
+        fillDocs={() => this.props.fillDocs(val)}
+        toggleSubSection={() => this.props.toggleSubSection(val)}
+      />
+    ));
+    if (this.props.sidebarActive || this.props.subSectionsActive) {
+      const subsectionArr = sectionArr.map((val, i) => {
+        <Section
+          key={i}
+          name={val}
+          changeSection={() => this.props.changeSection(val)}
+        />;
+      });
+
       return (
         <section id="sidebar">
           {sectionArr}
+          <section id="subSectionsBar">{subsectionArr}</section>
         </section>
       );
     } else {

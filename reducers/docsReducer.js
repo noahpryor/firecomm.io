@@ -5,13 +5,14 @@ const defaultState = {
   section: "Introduction",
   sidebarActive: false,
   searchBarActive: false,
+  subSectionsActive: false,
   sections: {'Protobuff': ['psub1','psub2','psub3'], 'Calls': ['csub1', 'csub2'], 'Build': ['bsub1'], 'Server': [], 'Stub': [], 'Error': [], 'Middleware': []},
+
 };
 
 const docsReducer = (store = defaultState, action) => {
   switch (action.type) {
     case types.CHANGE_SECTION:
-      console.log('daaaaaaa')
       const storeCopySection = { ...store };
       storeCopySection.section = action.payload
       return storeCopySection;
@@ -22,6 +23,12 @@ const docsReducer = (store = defaultState, action) => {
       storeCopy.sidebarActive = !store.sidebarActive;
       console.log({ storeCopy });
       return storeCopy;
+
+      case types.TOGGLE_SUB_SECTION:
+        console.log('called the sub section reducer')
+        const storeSubSectionCopy = {...store}
+        storeSubSectionCopy.subSectionsActive = !store.subSectionsActive;
+        return storeSubSectionCopy
 
     case types.FILL_DOCS:
       console.log('fill docs reducer')

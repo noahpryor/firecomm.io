@@ -26,3 +26,8 @@ export const toggleSearchRes =() => ({
 export const toggleSearchResOff =() => ({
   type: types.TOGGLE_SEARCH_RES_OFF,
 })
+
+export const toggleSubSection = (title) => ({
+  type: types.TOGGLE_SUB_SECTION,
+  payload: title
+})
