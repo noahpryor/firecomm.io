@@ -8,7 +8,10 @@ class Section extends Component {
 
     render() {
         return (
-            <h1>{this.props.name}</h1>
+            <div>
+                <h1 id="SectionItem" onClick={ () => this.props.addSection(this.props.name) } >{this.props.name}</h1>
+                <subSection></subSection>
+            </div>
             )
     }
 }

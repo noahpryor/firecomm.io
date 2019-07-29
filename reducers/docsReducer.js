@@ -6,11 +6,21 @@ const defaultState = {
   sidebarActive: false,
   searchBarActive: false,
   subSectionCollapsedObj: {'test': true },
-  sections: ['Protobuff', 'Calls', 'Build', 'Server', 'Stud', 'Error Handling', 'Middleware/Interceptor']
+  sections: ['Protobuff', 'Calls', 'Build', 'Server', 'Stud', 'Error Handling', 'Middleware/Interceptor'],
+  protobuffSubsection: ['test1', 'test2', 'test3']
 };
 
 const docsReducer = (store = defaultState, action) => {
   switch (action.type) {
+    case types.ADD_SUBSECTION:
+      console.log('adding section bro---------------', action.payload)
+      for(let i = 0; i < store.sections.length; i++){
+        if(store.sections[i] === action.payload){
+          // Render Sub-sections here
+          // add a component with default display to none
+          return store.protobuffSubsection
+        }
+      }
 
     case types.CHANGE_SECTION:
       console.log('daaaaaaa')
@@ -40,11 +50,11 @@ const docsReducer = (store = defaultState, action) => {
       }
       return storeCopySearchRes
 
-      case types.TOGGLE_SEARCH_RES_OFF:
-          console.log('toggle search bar reducer')
-          const storeCopySearchResOff = { ...store }
-          storeCopySearchResOff.searchBarActive = false
-          return storeCopySearchResOff
+    case types.TOGGLE_SEARCH_RES_OFF:
+        console.log('toggle search bar reducer')
+        const storeCopySearchResOff = { ...store }
+        storeCopySearchResOff.searchBarActive = false
+        return storeCopySearchResOff
 
     case types.SEARCH_ITEM:
       if(action.payload.length === 0 ){
