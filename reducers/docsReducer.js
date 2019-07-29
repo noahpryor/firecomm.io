@@ -5,11 +5,8 @@ const defaultState = {
   section: "Introduction",
   sidebarActive: false,
   searchBarActive: false,
-<<<<<<< HEAD
   subSectionCollapsedObj: {'test': true },
-  sections: ['Introduction', 'Basic', 'Advanced']
-=======
->>>>>>> 0ea50a11e0e0fe906f581ab9e504c1ee855349a5
+  sections: ['Protobuff', 'Calls', 'Build', 'Server', 'Stud', 'Error Handling', 'Middleware/Interceptor']
 };
 
 const docsReducer = (store = defaultState, action) => {

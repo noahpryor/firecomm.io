@@ -19,6 +19,7 @@ class SidebarContainer extends Component {
   componentDidUpdate() {
     console.log('sidebaractive:', this.props.sidebarActive);
   }
+  
   render() {
     if (this.props.sidebarActive) {
       return (
