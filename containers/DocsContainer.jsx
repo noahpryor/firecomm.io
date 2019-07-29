@@ -7,7 +7,7 @@ import DocsBody from '../components/DocsBody.jsx';
 
 const mapStateToProps = store => ({
   section: store.docs.section,
-  content: store.docs.content
+  content: store.docs.content,
 });
 
 class DocsContainer extends Component {

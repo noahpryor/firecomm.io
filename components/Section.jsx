@@ -1,15 +1,16 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
+
+// enable onclick on each section
+    // set a value true
+
 
 class Section extends Component {
 
     render() {
-        return(
-        <h5 onClick={this.props.changeSection}>
-        {this.props.name}
-        </h5>
-        )  
+        return (
+            <h1>{this.props.name}</h1>
+            )
     }
 }
 
 export default Section
-

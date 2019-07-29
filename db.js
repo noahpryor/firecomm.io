@@ -1,3 +1,5 @@
 export default {
-    "intro": 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut sem viverra aliquet eget sit amet. Leo vel orci porta non pulvinar neque laoreet suspendisse interdum. Aliquam ut porttitor leo a. Suscipit tellus mauris a diam. Donec enim diam vulputate ut pharetra sit amet aliquam. Ac odio tempor orci dapibus ultrices in. Posuere lorem ipsum dolor sit amet consectetur adipiscing elit duis. Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi tristique. Arcu odio ut sem nulla. Morbi tristique senectus et netus et malesuada fames ac. In ante metus dictum at tempor commodo. Tincidunt vitae semper quis lectus nulla. Massa sed elementum tempus egestas. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim. Eget mauris pharetra et ultrices neque ornare aenean euismod. Nisl nunc mi ipsum faucibus.'
+    "introduction": 'introduction content',
+    "basic": "basic content",
+    "advanced": "advanced content"
 }
