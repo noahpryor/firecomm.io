@@ -5,6 +5,7 @@ const defaultState = {
   section: "Introduction",
   sidebarActive: false,
   searchBarActive: false,
+  sections: ['Protobuff', 'Calls', 'Build', 'Server', 'Stub', 'Error', 'Middleware']
 };
 
 const docsReducer = (store = defaultState, action) => {
