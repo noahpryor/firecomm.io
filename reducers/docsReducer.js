@@ -5,22 +5,33 @@ const defaultState = {
   section: "Introduction",
   sidebarActive: false,
   searchBarActive: false,
-  subSectionCollapsedObj: {'test': true },
-  sections: ['Protobuff', 'Calls', 'Build', 'Server', 'Stud', 'Error Handling', 'Middleware/Interceptor'],
-  protobuffSubsection: ['test1', 'test2', 'test3']
+  sections: {'Protobuff': ['psub1','psub2','psub3'], 
+             'Calls': ['csub1', 'csub2'], 
+             'Build': ['bsub1'], 
+             'Server': [], 
+             'Stub': [], 
+             'Error': [], 
+             'Middleware': []
+            },
+  collapsed: {'Protobuff': false, 
+              'Calls': false, 
+              'Build': false, 
+              'Server': false, 
+              'Stub': false, 
+              'Error': false, 
+              'Middleware': false
+              },
 };
 
 const docsReducer = (store = defaultState, action) => {
   switch (action.type) {
-    case types.ADD_SUBSECTION:
-      console.log('adding section bro---------------', action.payload)
-      for(let i = 0; i < store.sections.length; i++){
-        if(store.sections[i] === action.payload){
-          // Render Sub-sections here
-          // add a component with default display to none
-          return store.protobuffSubsection
-        }
-      }
+    case types.TOGGLE_SUBSECTIONS:
+      console.log('inside togglesubsectiondawg')
+      const storeCopyCollapsed = JSON.parse(JSON.stringify(store));
+      storeCopyCollapsed.collapsed[action.payload] === true ? storeCopyCollapsed.collapsed[action.payload] = false : storeCopyCollapsed.collapsed[action.payload] = true
+      console.log(storeCopyCollapsed)
+      return storeCopyCollapsed
+      
 
     case types.CHANGE_SECTION:
       console.log('daaaaaaa')
